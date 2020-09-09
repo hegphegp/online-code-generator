@@ -1,0 +1,32 @@
+#  docker run -itd --name postgres --restart always -e TZ=Asia/Shanghai -v /etc/localtime:/etc/localtime:ro -p 5432:5432 -e POSTGRES_USER=sde -e POSTGRES_PASSWORD=postgres postgres:11.8-alpine postgres -c max_connections=500
+spring:
+  application:
+    name: online-code-generator
+  datasource:
+    username: sde
+    password: postgres
+    url: jdbc:postgresql://localhost:5432/online-code-generator
+    driver-class-name: org.postgresql.Driver
+#    url: jdbc:mysql://localhost:3306/gghqfw?useUnicode=true&characterEncoding=utf-8&useSSL=false
+#    driver-class-name: com.mysql.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      max-lifetime: 1830000
+      maximum-pool-size: 10
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    database: postgresql
+#    database: mysql
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: true
+  jackson.serialization.write-dates-as-timestamps: true
+  data:
+    web:
+      pageable:
+        default-page-size: 10
+        one-indexed-parameters: true
+
+# http://localhost:8080/projects/layuimini/v2.0.3/index.html

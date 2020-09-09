@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>登录页面</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../lib/layui-v2.5.5/css/layui.css">
+    <link rel="stylesheet" href="../css/login.css">
+    <!-- <link rel="icon" href="人世的绝望，此处的icon的href必须是包含IP域名的完整路径，写相对路径或者绝对路径全死了，不想浪费生命在这个无意义的地方了../images/title-icon.png" type="image/x-icon"> -->
+    <link rel="icon" href="../images/title-icon.png" type="image/x-icon">
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body style="display: none">
+<div class="layadmin-user-login layadmin-user-display-show" style="display: none;">
+
+    <form action="">
+        <div class="layadmin-user-login-main">
+            <div class="layadmin-user-login-box layadmin-user-login-header">
+                <h2 id="system-title-name"></h2>
+            </div>
+            <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
+                <div class="layui-form-item">
+                    <label class="layadmin-user-login-icon layui-icon layui-icon-username"></label>
+                    <input type="text" name="username" lay-verify="required" placeholder="用户名" class="layui-input">
+                </div>
+                <div class="layui-form-item">
+                    <label class="layadmin-user-login-icon layui-icon layui-icon-password"></label>
+                    <input type="password" name="password" lay-verify="required" placeholder="密码" class="layui-input">
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-row">
+                        <div class="layui-col-xs7">
+                            <label class="layadmin-user-login-icon layui-icon layui-icon-vercode"></label>
+                            <input type="text" name="vercode" lay-verify="required" placeholder="图形验证码" class="layui-input">
+                        </div>
+                        <div class="layui-col-xs5">
+                            <div style="margin-left: 10px;">
+                                <img class="layadmin-user-login-codeimg" id="login-captcha">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="login-submit">登 入</button>
+                </div>
+                <div class="layui-form-item">
+                    <a href="reg.html" class="layadmin-link">注册帐号</a>
+                    <a href="forget.html" class="layadmin-link" style="float: right;">忘记密码</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript" src="../lib/jquery-3.4.1/jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="../lib/layui-v2.5.5/layui.all.js"></script>
+<script type="text/javascript">
+
+    var systemConfig = {
+        systemTitleName: "系统名称",
+        systemIcon: "title-icon.png"
+    };
+
+    // $(document).beforeactivate()
+    //由于模块都一次性加载，因此不用执行 layui.use() 来加载对应模块，直接使用即可：
+    $(function() {
+        $('title').text(systemConfig.systemTitleName);  //动态设置标题
+        $('#system-title-name').text(systemConfig.systemTitleName);  //动态设置标题
+        // $("link[rel*='icon']").attr("href", "https://www.baidu.com/icon-url.png"); // 这种全路径的写法可以渲染图标
+        // $("link[rel*='icon']").attr("href", "../images/title-icon.png"); // 这种相对路径的写法不可以渲染图标
+        // <link rel="icon" 的 href="人世的绝望，此处的icon的href必须是包含IP域名的完整路径，写相对路径或者绝对路径全死了，不想浪费生命在这个无意义的地方了../images/title-icon.png" type="image/x-icon">
+        $("body").removeAttr("style");
+
+        // alert(window.location.href+"/../images/title-icon.png");
+        var titleIconUrl = toAbsURL(window.location.href+"/../../images/"+systemConfig.systemIcon);
+        $("link[rel*='icon']").attr("href", titleIconUrl);
+        // 图形验证码
+        $('#login-captcha').attr("src", '../../../../captcha?t=' + (new Date).getTime());
+        $('#login-captcha').click(function () {
+            this.src = '../../../../captcha?t=' + (new Date).getTime();
+        });
+    });
+
+    // 借用浏览器：将相对路径转成绝对路径，直接使用链接
+    function toAbsURL(url){
+        var a = document.createElement('a');
+        a.href = url;
+        return a.href;
+    }
+
+
+    // 进行登录操作
+    layui.form.on('submit(login-submit)', function (data) {
+        data = data.field;
+        // alert(JSON.stringify(data));
+        // if (data.username == '') {
+        //     layer.msg('用户名不能为空');
+        //     return false;
+        // }
+        // if (data.password == '') {
+        //     layer.msg('密码不能为空');
+        //     return false;
+        // }
+        // if (data.captcha == '') {
+        //     layer.msg('验证码不能为空');
+        //     return false;
+        // }
+        layer.msg('登录成功', function () {
+            window.location = './';
+        });
+        return false;
+    });
+</script>
+</body>
+</html>
